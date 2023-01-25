@@ -10,15 +10,12 @@ import (
 )
 
 const filePath = "customers_test.csv"
-const wrongPath = "../customers_wrong.csv"
 
-func TestWrongPathExists(t *testing.T) {
-	got := filePath
-	want := wrongPath
+func TestPathExists(t *testing.T) {
+	expectedData := filePath
+	filePath := filePath
 
-	if got == want {
-		t.Errorf("got %q, wanted %q", got, want)
-	}
+	require.Equal(t, expectedData, filePath)
 }
 
 func TestScanner(t *testing.T) {
