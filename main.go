@@ -9,13 +9,13 @@ import (
 )
 
 func main() {
-	timeStart := time.Now()
+	t := time.Now()
 	data, err := customerimporter.SortCSV("customers.csv")
 	if err != nil {
 		log.Println("SortCSV Error: ", err.Error())
 	}
-	timeNeeded := time.Since(timeStart)
-	fmt.Println("time consumed: ", timeNeeded)
+	td := time.Since(t)
+	fmt.Println("time consumed: ", td)
 
 	fmt.Println(data)
 }

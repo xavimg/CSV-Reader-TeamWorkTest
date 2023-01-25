@@ -27,11 +27,11 @@ func TestScanner(t *testing.T) {
 		log.Println("OpenFile ERROR: ", err.Error())
 	}
 	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanLines)
+	sc := bufio.NewScanner(file)
+	sc.Split(bufio.ScanLines)
 
 	expectedData := map[string]int(map[string]int{"cyberchimps.com": 2, "github.io": 1})
-	dc, err := Scanner(scanner)
+	dc, err := DomainCounter(sc)
 	if err != nil {
 		t.Errorf("Expected error, got nil")
 	}
@@ -45,9 +45,9 @@ func TestMapToSlice(t *testing.T) {
 		log.Println("OpenFile ERROR: ", err.Error())
 	}
 	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanLines)
-	dc, err := Scanner(scanner)
+	sc := bufio.NewScanner(file)
+	sc.Split(bufio.ScanLines)
+	dc, err := DomainCounter(sc)
 	if err != nil {
 		t.Errorf("Expected error, got nil")
 	}

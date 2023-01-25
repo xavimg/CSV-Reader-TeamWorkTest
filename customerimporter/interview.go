@@ -18,47 +18,47 @@ type Data struct {
 	Count  int
 }
 
-func SortCSV(filePath string) ([]Data, error) {
-	file, err := os.Open(filePath)
+func SortCSV(fp string) ([]Data, error) {
+	file, err := os.Open(fp)
 	if err != nil {
 		log.Println("OpenFile ERROR: ", err.Error())
 		return nil, err
 	}
 	defer file.Close()
 
-	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanLines)
+	sc := bufio.NewScanner(file)
+	sc.Split(bufio.ScanLines)
 
-	domainCounter, err := Scanner(scanner)
+	dc, err := DomainCounter(sc)
 	if err != nil {
-		log.Println("Scanner ERROR: ", err.Error())
+		log.Println("DomainCounter ERROR: ", err.Error())
 		return nil, err
 	}
 
-	sliceData := MapToSlice(domainCounter)
-	sort.Slice(sliceData, func(i, j int) bool {
-		return sliceData[i].Count > sliceData[j].Count
+	s := MapToSlice(dc)
+	sort.Slice(s, func(i, j int) bool {
+		return s[i].Count > s[j].Count
 	})
 
-	return sliceData, nil
+	return s, nil
 }
 
-// Scanner scans the scanner.
+// DomainCounter scans the buffer file and executed the logic to count the repeated domains.
 // var domainCounter; is a map that will help us to count all repeated domains.
-func Scanner(scanner *bufio.Scanner) (map[string]int, error) {
-	domainCounter := make(map[string]int)
-	for scanner.Scan() {
-		record := scanner.Text()
+func DomainCounter(sc *bufio.Scanner) (map[string]int, error) {
+	dc := make(map[string]int)
+	for sc.Scan() {
+		record := sc.Text()
 		_, after, _ := strings.Cut(record, "@")
 		atComma := strings.Index(after, ",")
 		if atComma == -1 {
 			continue
 		}
 
-		domainCounter[after[:atComma]]++
+		dc[after[:atComma]]++
 	}
 
-	return domainCounter, nil
+	return dc, nil
 }
 
 // MapToSlice transforms our map to a slice of Data{}.
