@@ -28,7 +28,7 @@ func TestScanner(t *testing.T) {
 	sc.Split(bufio.ScanLines)
 
 	expectedData := map[string]int(map[string]int{"cyberchimps.com": 2, "github.io": 1})
-	dc, err := DomainCounter(sc)
+	dc, err := domainCounter(sc)
 	if err != nil {
 		t.Errorf("Expected error, got nil")
 	}
@@ -44,7 +44,7 @@ func TestMapToSlice(t *testing.T) {
 	defer file.Close()
 	sc := bufio.NewScanner(file)
 	sc.Split(bufio.ScanLines)
-	dc, err := DomainCounter(sc)
+	dc, err := domainCounter(sc)
 	if err != nil {
 		t.Errorf("Expected error, got nil")
 	}
@@ -53,7 +53,7 @@ func TestMapToSlice(t *testing.T) {
 		{"github.io", 1},
 		{"cyberchimps.com", 2},
 	}
-	data := MapToSlice(dc)
+	data := mapToSlice(dc)
 
 	require.Equal(t, expectedData, data)
 }
