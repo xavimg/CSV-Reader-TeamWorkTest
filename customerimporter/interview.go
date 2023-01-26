@@ -29,13 +29,13 @@ func SortCSV(fp string) ([]Data, error) {
 	sc := bufio.NewScanner(file)
 	sc.Split(bufio.ScanLines)
 
-	dc, err := DomainCounter(sc)
+	dc, err := domainCounter(sc)
 	if err != nil {
 		log.Println("DomainCounter ERROR: ", err.Error())
 		return nil, err
 	}
 
-	s := MapToSlice(dc)
+	s := mapToSlice(dc)
 	sort.Slice(s, func(i, j int) bool {
 		return s[i].Count > s[j].Count
 	})
@@ -45,7 +45,7 @@ func SortCSV(fp string) ([]Data, error) {
 
 // DomainCounter scans the buffer file and executed the logic to count the repeated domains.
 // var domainCounter; is a map that will help us to count all repeated domains.
-func DomainCounter(sc *bufio.Scanner) (map[string]int, error) {
+func domainCounter(sc *bufio.Scanner) (map[string]int, error) {
 	dc := make(map[string]int)
 	for sc.Scan() {
 		record := sc.Text()
@@ -62,7 +62,7 @@ func DomainCounter(sc *bufio.Scanner) (map[string]int, error) {
 }
 
 // MapToSlice transforms our map to a slice of Data{}.
-func MapToSlice(dc map[string]int) []Data {
+func mapToSlice(dc map[string]int) []Data {
 	var data []Data
 	for k, v := range dc {
 		data = append(data, Data{k, v})
