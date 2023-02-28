@@ -10,7 +10,7 @@ import (
 
 func main() {
 	t := time.Now()
-	data, err := customerimporter.SortCSV("customers.csv")
+	data, err := customerimporter.SortCSVImproved("customers.csv")
 	if err != nil {
 		log.Println("SortCSV Error: ", err.Error())
 	}
